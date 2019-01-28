@@ -1,4 +1,4 @@
-import {Inject, Injectable} from "@nestjs/common";
+import {HttpException, Inject, Injectable, NotFoundException} from "@nestjs/common";
 import {User} from "./user";
 import {USERS_TOKEN} from "./users.constant";
 
@@ -12,7 +12,11 @@ export class UsersService {
     }
 
     findOne(id: number): User | undefined {
-        return this.users.find( (user) => user.id == id)
+        const user = this.users.find( (user) => user.id == id);
+        if (!user) {
+            throw new NotFoundException()
+        }
+        return user;
     }
 
     create(data: User) {
