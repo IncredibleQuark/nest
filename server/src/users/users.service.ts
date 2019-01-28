@@ -1,9 +1,12 @@
-import {Injectable} from "@nestjs/common";
+import {Inject, Injectable} from "@nestjs/common";
 import {User} from "./user";
+import {USERS_TOKEN} from "./users.constant";
 
 @Injectable()
 export class UsersService {
-    private readonly users = require('./users.json');
+
+    constructor(@Inject(USERS_TOKEN) private readonly users: User[]) {}
+
     findAll() {
         return this.users;
     }
